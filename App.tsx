@@ -153,6 +153,13 @@ export default function App() {
         )}
 
       </main>
+
+      {/* Footer */}
+      <footer className="fixed bottom-4 w-full text-center z-50 pointer-events-none">
+        <p className="text-slate-500/50 text-xs font-light tracking-widest uppercase">
+          Made with love by Sayan
+        </p>
+      </footer>
     </div>
   );
 }
