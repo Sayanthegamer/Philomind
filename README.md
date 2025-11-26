@@ -9,7 +9,6 @@ PhiloMind is an interactive web application that assesses your "Philosophical Ma
 
 -   **Deep Philosophical Questionnaire**: A curated set of questions designed to probe your ethical and metaphysical leanings.
 -   **AI-Powered Analysis**: Uses the Gemini API to analyze your answers and generate a detailed philosophical profile.
--   **Liquid Glass UI**: A stunning, modern interface featuring glassmorphism, fluid animations, and a premium "Navy & Amber" aesthetic.
 -   **Philosophical Persona**: Discover if you are a "Stoic Individualist", "Rational Humanist", or another unique archetype.
 -   **Shareable Insight Cards**: Generate beautiful, social-media-ready images of your results to share with friends.
 -   **Mobile Responsive**: A seamless experience across all devices, from desktop to mobile.
