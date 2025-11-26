@@ -4,9 +4,11 @@ import { GlassCard } from './GlassCard';
 
 interface IntroViewProps {
     onStart: () => void;
+    loadingError?: string | null;
+    isTransitioning?: boolean;
 }
 
-export const IntroView: React.FC<IntroViewProps> = ({ onStart }) => {
+export const IntroView: React.FC<IntroViewProps> = ({ onStart, loadingError, isTransitioning }) => {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
 
@@ -30,12 +32,26 @@ export const IntroView: React.FC<IntroViewProps> = ({ onStart }) => {
                     A journey into your philosophical depth. Discover your maturity through the lens of history's greatest thinkers.
                 </p>
 
+                {loadingError && (
+                    <div className="mb-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-200 text-sm max-w-md mx-auto">
+                        {loadingError}
+                    </div>
+                )}
+
                 <button
                     onClick={onStart}
-                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-philo-amber-500 hover:bg-philo-amber-400 text-philo-navy-900 rounded-full text-lg font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 active:scale-95"
+                    disabled={isTransitioning}
+                    className={`
+                        group relative inline-flex items-center gap-3 px-8 py-4 
+                        bg-philo-amber-500 hover:bg-philo-amber-400 text-philo-navy-900 
+                        rounded-full text-lg font-semibold transition-all duration-300 
+                        shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] 
+                        hover:-translate-y-1 active:scale-95
+                        ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}
+                    `}
                 >
-                    <span>Begin Analysis</span>
-                    <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    <span>{isTransitioning ? 'Entering Void...' : 'Begin Analysis'}</span>
+                    {!isTransitioning && <ArrowRight className="group-hover:translate-x-1 transition-transform" />}
                     <div className="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/40 transition-all"></div>
                 </button>
 

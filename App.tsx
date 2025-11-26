@@ -98,13 +98,13 @@ export default function App() {
 
   return (
     // Dynamic soft gradient background
-    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 bg-[length:400%_400%] animate-gradient-slow overflow-hidden relative">
+    <div className="min-h-screen w-full overflow-hidden relative text-slate-100">
 
       {/* Abstract blurred blobs for background depth */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-        <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-indigo-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-pink-300/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-philo-navy-500/20 rounded-full mix-blend-screen filter blur-3xl animate-blob"></div>
+        <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-philo-amber-600/10 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-philo-navy-700/30 rounded-full mix-blend-screen filter blur-3xl animate-blob animation-delay-4000"></div>
       </div>
 
       <main className="relative z-10 min-h-screen flex flex-col items-center justify-center py-10 px-4">
@@ -112,13 +112,13 @@ export default function App() {
         {/* Header - Always visible unless in results (optional choice, but let's keep it clean) */}
         {appState !== 'RESULTS' && (
           <header className={`mb-12 text-center transition-all duration-700 ${isTransitioning ? 'opacity-0 -translate-y-10' : 'animate-fadeInDown'}`}>
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/40 backdrop-blur-md mb-4 shadow-lg text-indigo-600">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/5 backdrop-blur-md mb-4 shadow-[0_0_15px_rgba(245,158,11,0.2)] text-philo-amber-400 border border-white/10">
               <Brain size={32} strokeWidth={1.5} />
             </div>
-            <h1 className="serif text-5xl md:text-6xl text-slate-800 tracking-tight mb-2">
+            <h1 className="serif text-5xl md:text-6xl text-white tracking-tight mb-2 drop-shadow-lg">
               PhiloMind
             </h1>
-            <p className="text-slate-500 font-light text-lg tracking-wide uppercase">
+            <p className="text-slate-400 font-light text-lg tracking-wide uppercase">
               The Mirror of the Soul
             </p>
           </header>
