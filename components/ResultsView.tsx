@@ -229,14 +229,14 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           {/* Persona Card */}
           <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative overflow-hidden min-h-[300px] gel-border">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500 rounded-t-2xl"></div>
-            <div className="mb-auto mt-4">
-              <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
-              <h2 className="serif text-3xl md:text-4xl text-white mb-4 drop-shadow-md">{result.philosophicalPersona}</h2>
-              <p className="text-slate-300 leading-relaxed text-lg font-light">
+            <div className="mb-auto mt-6">
+              <h3 className="text-slate-400 text-xs md:text-sm uppercase tracking-widest font-semibold mb-3">Your Philosophical Persona</h3>
+              <h2 className="serif text-2xl md:text-4xl text-white mb-4 drop-shadow-md leading-tight">{result.philosophicalPersona}</h2>
+              <p className="text-slate-300 leading-relaxed text-base md:text-lg font-light">
                 {result.generalAnalysis}
               </p>
             </div>
-            <div className="mt-6 flex items-center gap-2 text-philo-amber-500/60 text-xs uppercase tracking-widest">
+            <div className="mt-6 flex items-center gap-2 text-philo-amber-500/60 text-[10px] md:text-xs uppercase tracking-widest">
               <span>PhiloMind Assessment</span>
             </div>
           </GlassCard>
@@ -323,74 +323,83 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       <div className="fixed left-[-9999px] top-0 pointer-events-none">
         <div
           ref={shareCardRef}
-          className="w-[800px] bg-slate-900 p-12 flex flex-col items-center justify-center text-center relative"
-          style={{ height: 'auto', minHeight: '600px' }}
+          className="w-[1200px] h-[630px] bg-slate-900 flex flex-col items-center justify-center text-center relative overflow-hidden"
         >
           {/* Decorative Background Elements */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-philo-navy-900 to-slate-900"></div>
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-philo-navy-500 via-philo-amber-500 to-philo-navy-500"></div>
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-philo-navy-500/20 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-philo-amber-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-philo-navy-500/20 rounded-full blur-[100px]"></div>
+          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-philo-amber-600/10 rounded-full blur-[100px]"></div>
 
-          <div className="relative z-10 w-full flex flex-col items-center">
+          <div className="relative z-10 w-full h-full flex flex-col items-center justify-between p-16">
             {/* Branding */}
-            <div className="flex items-center gap-3 mb-8 opacity-90">
-              <Brain className="text-philo-amber-500" size={32} />
-              <span className="serif text-3xl text-white tracking-tight">PhiloMind</span>
+            <div className="flex items-center gap-4 opacity-90">
+              <Brain className="text-philo-amber-500" size={48} />
+              <span className="serif text-4xl text-white tracking-tight">PhiloMind</span>
             </div>
 
-            {/* Score */}
-            <div className="mb-8 relative w-40 h-40 mx-auto">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
-                <circle
-                  className="text-philo-navy-800"
-                  strokeWidth="12"
-                  stroke="currentColor"
-                  fill="#1e293b"
-                  r="65"
-                  cx="80"
-                  cy="80"
-                />
-                <circle
-                  className="text-philo-amber-500"
-                  strokeWidth="12"
-                  strokeDasharray={408}
-                  strokeDashoffset={408 - (408 * result.maturityScore) / 100}
-                  strokeLinecap="round"
-                  stroke="currentColor"
-                  fill="transparent"
-                  r="65"
-                  cx="80"
-                  cy="80"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="serif text-5xl font-bold text-white">{result.maturityScore}</span>
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
+
+              <div className="flex items-center justify-center gap-12 w-full">
+                {/* Score Circle */}
+                <div className="relative w-48 h-48 flex-shrink-0">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                    <circle
+                      className="text-philo-navy-800"
+                      strokeWidth="12"
+                      stroke="currentColor"
+                      fill="#1e293b"
+                      r="65"
+                      cx="80"
+                      cy="80"
+                    />
+                    <circle
+                      className="text-philo-amber-500"
+                      strokeWidth="12"
+                      strokeDasharray={408}
+                      strokeDashoffset={408 - (408 * result.maturityScore) / 100}
+                      strokeLinecap="round"
+                      stroke="currentColor"
+                      fill="transparent"
+                      r="65"
+                      cx="80"
+                      cy="80"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center pt-2">
+                    <span className="serif text-6xl font-bold text-white leading-none">{result.maturityScore}</span>
+                  </div>
+                  <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-philo-amber-500 text-philo-navy-900 text-sm font-bold px-4 py-1 rounded-full uppercase tracking-widest shadow-lg whitespace-nowrap">
+                    Maturity
+                  </div>
+                </div>
+
+                {/* Text Content */}
+                <div className="text-left flex-1">
+                  <h3 className="text-philo-amber-500/80 text-lg uppercase tracking-widest font-semibold mb-3">Your Philosophical Persona</h3>
+                  <h2 className="serif text-5xl text-white mb-6 leading-tight drop-shadow-lg">
+                    {result.philosophicalPersona}
+                  </h2>
+                  <p className="text-2xl text-slate-300 font-light leading-relaxed">
+                    {result.generalAnalysis.length > 180
+                      ? result.generalAnalysis.substring(0, 180) + "..."
+                      : result.generalAnalysis}
+                  </p>
+                </div>
               </div>
-              <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-philo-amber-500 text-philo-navy-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
-                Maturity
-              </div>
+
+              {/* Award if present */}
+              {result.hasAward && (
+                <div className="mt-10 flex items-center gap-4 bg-philo-amber-500/10 border border-philo-amber-500/30 px-8 py-4 rounded-full backdrop-blur-md">
+                  <Award className="text-philo-amber-400" size={32} />
+                  <span className="text-philo-amber-100 font-serif text-2xl">{result.awardTitle}</span>
+                </div>
+              )}
             </div>
-
-            {/* Persona */}
-            <h2 className="serif text-5xl text-white mb-6 leading-tight max-w-2xl drop-shadow-lg">
-              {result.philosophicalPersona}
-            </h2>
-
-            <p className="text-xl text-slate-300 font-light leading-relaxed max-w-2xl mb-10">
-              {result.generalAnalysis}
-            </p>
-
-            {/* Award if present */}
-            {result.hasAward && (
-              <div className="flex items-center gap-4 bg-philo-amber-500/10 border border-philo-amber-500/30 px-8 py-4 rounded-full mb-10 backdrop-blur-md">
-                <Award className="text-philo-amber-400" size={28} />
-                <span className="text-philo-amber-100 font-serif text-xl">{result.awardTitle}</span>
-              </div>
-            )}
 
             {/* Footer */}
-            <div className="mt-auto pt-8 border-t border-white/10 w-full flex justify-between items-center text-slate-500 text-sm uppercase tracking-widest">
+            <div className="w-full flex justify-between items-center text-slate-500 text-sm uppercase tracking-widest border-t border-white/10 pt-6">
               <span>The Mirror of the Soul</span>
               <span>philomind.vercel.app</span>
             </div>
