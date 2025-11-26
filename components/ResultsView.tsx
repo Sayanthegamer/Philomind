@@ -367,7 +367,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           {/* Footer */}
           <div className="mt-auto pt-8 border-t border-slate-200 w-full flex justify-between items-center text-slate-400 text-sm uppercase tracking-widest">
             <span>The Mirror of the Soul</span>
-            <span>philomind.app</span>
+            <span>philomind.vercel.app</span>
           </div>
         </div>
       </div>
