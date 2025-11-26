@@ -140,7 +140,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
       {/* Header Section */}
       <div className="text-center mb-8 animate-fadeInDown">
-        <h2 className="serif text-5xl text-white mb-2 drop-shadow-lg">Analysis Complete</h2>
+        <h2 className="serif text-4xl md:text-5xl text-white mb-2 drop-shadow-lg">Analysis Complete</h2>
         <p className="text-slate-300 font-light">Your philosophical portrait has been painted.</p>
       </div>
 
@@ -205,7 +205,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
                   cy="80"
                 />
                 <circle
-                  className="text-philo-amber-500 transition-all duration-1000 ease-out drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]"
+                  className="text-philo-amber-500 transition-all duration-1000 ease-out drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"
                   strokeWidth="8"
                   strokeDasharray={314}
                   strokeDashoffset={314 - (314 * result.maturityScore) / 100}
@@ -231,7 +231,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500"></div>
             <div className="mb-auto mt-4">
               <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
-              <h2 className="serif text-4xl text-white mb-4 drop-shadow-md">{result.philosophicalPersona}</h2>
+              <h2 className="serif text-3xl md:text-4xl text-white mb-4 drop-shadow-md">{result.philosophicalPersona}</h2>
               <p className="text-slate-300 leading-relaxed text-lg font-light">
                 {result.generalAnalysis}
               </p>
@@ -250,7 +250,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
               <div className="flex justify-center mb-4 text-philo-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">
                 <Award size={64} strokeWidth={1} />
               </div>
-              <h3 className="serif text-3xl text-philo-amber-100 mb-2">Philosophical Award Granted</h3>
+              <h3 className="serif text-2xl md:text-3xl text-philo-amber-100 mb-2">Philosophical Award Granted</h3>
               <p className="text-philo-amber-200/60 mb-4 uppercase tracking-widest text-sm font-bold">You have earned</p>
               <div className="inline-block border-y-2 border-philo-amber-500/30 py-2 px-8 bg-philo-amber-500/5">
                 <span className="serif text-2xl md:text-4xl text-philo-amber-400 font-bold">{result.awardTitle}</span>
@@ -261,12 +261,12 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       </div>
 
       {/* Detailed Insights */}
-      <h3 className="serif text-3xl text-white mb-8 pl-2 border-l-4 border-philo-amber-500 animate-fadeIn" style={{ animationDelay: '500ms' }}>Deep Dive Analysis</h3>
+      <h3 className="serif text-2xl md:text-3xl text-white mb-8 pl-2 border-l-4 border-philo-amber-500 animate-fadeIn" style={{ animationDelay: '500ms' }}>Deep Dive Analysis</h3>
 
       <div className="space-y-8">
         {insightsWithQuestions.map((item, idx) => (
           <div key={idx} className="animate-slide-up-fade" style={{ animationDelay: `${600 + (idx * 150)}ms` }}>
-            <GlassCard hoverEffect className="group gel-border">
+            <GlassCard hoverEffect className="group gel-border p-4 md:p-8">
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Question & Answer Summary */}
                 <div className="flex-1">
@@ -320,7 +320,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       </div>
 
       {/* --- HIDDEN SHARE CARD TEMPLATE --- */}
-      <div className="absolute top-0 left-0 overflow-hidden pointer-events-none" style={{ width: 0, height: 0 }}>
+      <div className="fixed left-[-9999px] top-0 pointer-events-none">
         <div
           ref={shareCardRef}
           className="w-[800px] bg-slate-900 p-12 flex flex-col items-center justify-center text-center relative"
