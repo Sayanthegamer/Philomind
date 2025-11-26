@@ -11,40 +11,43 @@
   animation-delay: 4s;
 }
 
-/* Liquid Glass Utilities */
-.liquid-glass {
-  @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(31, 38, 135, 0.15)];
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-}
+@layer components {
 
-.liquid-glass-amber {
-  @apply bg-philo-amber-400/10 backdrop-blur-xl border border-philo-amber-400/20;
-  background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.05));
-}
+  /* Liquid Glass Utilities */
+  .liquid-glass {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(31, 38, 135, 0.15)];
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  }
 
-/* Elastic Hover Effect */
-.bounce-on-hover {
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+  .liquid-glass-amber {
+    @apply bg-philo-amber-400/10 backdrop-blur-xl border border-philo-amber-400/20;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.05));
+  }
 
-.bounce-on-hover:hover {
-  transform: scale(1.02) translateY(-4px);
-}
+  /* Elastic Hover Effect */
+  .bounce-on-hover {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
 
-/* Gel Border */
-.gel-border {
-  position: relative;
-}
+  .bounce-on-hover:hover {
+    transform: scale(1.02) translateY(-4px);
+  }
 
-.gel-border::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  /* Gel Border */
+  .gel-border {
+    position: relative;
+  }
+
+  .gel-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }
