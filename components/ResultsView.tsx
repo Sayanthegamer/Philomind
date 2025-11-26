@@ -46,7 +46,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           cacheBust: true,
           pixelRatio: 2, // Higher quality for the dedicated card
           quality: 0.95,
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#1e293b', // Dark background for share card
         };
 
         let dataUrl = "";
@@ -140,8 +140,8 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
       {/* Header Section */}
       <div className="text-center mb-8 animate-fadeInDown">
-        <h2 className="serif text-5xl text-slate-800 mb-2">Analysis Complete</h2>
-        <p className="text-slate-600 font-light">Your philosophical portrait has been painted.</p>
+        <h2 className="serif text-5xl text-white mb-2 drop-shadow-lg">Analysis Complete</h2>
+        <p className="text-slate-300 font-light">Your philosophical portrait has been painted.</p>
       </div>
 
       {/* Share Actions */}
@@ -149,7 +149,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         {shareStage === 'IDLE' && (
           <button
             onClick={handlePrepareShare}
-            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 hover:shadow-sm transition-all text-sm font-medium"
+            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-philo-navy-700/50 text-philo-amber-400 border border-philo-amber-500/30 hover:bg-philo-navy-700 hover:shadow-[0_0_15px_rgba(245,158,11,0.2)] transition-all text-sm font-medium backdrop-blur-sm"
           >
             <Share2 size={16} />
             <span>Create Share Card</span>
@@ -159,7 +159,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         {shareStage === 'GENERATING' && (
           <button
             disabled
-            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-indigo-50 text-indigo-400 cursor-wait transition-all text-sm font-medium"
+            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-philo-navy-700/50 text-slate-400 cursor-wait transition-all text-sm font-medium border border-white/5"
           >
             <Loader2 size={16} className="animate-spin" />
             <span>Painting Canvas...</span>
@@ -169,7 +169,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         {shareStage === 'READY' && (
           <button
             onClick={executeShare}
-            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-indigo-500/30 transition-all text-sm font-medium animate-pulse-slow"
+            className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-philo-amber-500 text-philo-navy-900 hover:bg-philo-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.4)] hover:shadow-[0_0_25px_rgba(245,158,11,0.6)] transition-all text-sm font-medium animate-pulse-slow font-bold"
           >
             {navigator.share ? <Share2 size={16} /> : <Download size={16} />}
             <span>{navigator.share ? "Share Now" : "Download Image"}</span>
@@ -178,7 +178,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
         <button
           onClick={handleTwitterShare}
-          className="flex items-center justify-center gap-2 px-6 py-2 bg-sky-100 text-sky-700 rounded-full hover:bg-sky-200 transition-colors text-sm font-medium"
+          className="flex items-center justify-center gap-2 px-6 py-2 bg-sky-500/10 text-sky-400 border border-sky-500/30 rounded-full hover:bg-sky-500/20 transition-colors text-sm font-medium"
         >
           <Twitter size={16} />
           <span>Tweet</span>
@@ -186,17 +186,17 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       </div>
 
       {/* Visible Results (Responsive) */}
-      <div className="rounded-2xl p-4 md:p-8 mb-12 bg-white/20 animate-slide-up-fade" style={{ animationDelay: '300ms' }}>
+      <div className="rounded-2xl p-4 md:p-8 mb-12 bg-white/5 border border-white/10 animate-slide-up-fade backdrop-blur-sm" style={{ animationDelay: '300ms' }}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
 
           {/* Main Score Card */}
-          <GlassCard className="col-span-1 md:col-span-1 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[300px]">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-300 to-purple-300"></div>
-            <h3 className="text-slate-500 text-sm uppercase tracking-widest font-semibold mb-6">Maturity Rating</h3>
+          <GlassCard className="col-span-1 md:col-span-1 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[300px] gel-border">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-navy-500 to-philo-amber-500"></div>
+            <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-6">Maturity Rating</h3>
             <div className="relative mb-6">
               <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
                 <circle
-                  className="text-slate-200"
+                  className="text-philo-navy-700"
                   strokeWidth="8"
                   stroke="currentColor"
                   fill="transparent"
@@ -205,7 +205,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
                   cy="80"
                 />
                 <circle
-                  className="text-indigo-500 transition-all duration-1000 ease-out"
+                  className="text-philo-amber-500 transition-all duration-1000 ease-out drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]"
                   strokeWidth="8"
                   strokeDasharray={314}
                   strokeDashoffset={314 - (314 * result.maturityScore) / 100}
@@ -217,26 +217,26 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
                   cy="80"
                 />
               </svg>
-              <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl serif font-bold text-slate-700">
+              <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl serif font-bold text-white">
                 {result.maturityScore}
               </span>
             </div>
-            <div className="text-indigo-900 font-medium px-4 py-1 bg-indigo-50 rounded-full text-sm">
+            <div className="text-philo-amber-200 font-medium px-4 py-1 bg-philo-amber-500/10 border border-philo-amber-500/20 rounded-full text-sm">
               Philosophical Score
             </div>
           </GlassCard>
 
           {/* Persona Card */}
-          <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative min-h-[300px]">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-300 to-pink-300"></div>
+          <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative min-h-[300px] gel-border">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500"></div>
             <div className="mb-auto mt-4">
-              <h3 className="text-slate-500 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
-              <h2 className="serif text-4xl text-slate-800 mb-4">{result.philosophicalPersona}</h2>
-              <p className="text-slate-700 leading-relaxed text-lg font-light">
+              <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
+              <h2 className="serif text-4xl text-white mb-4 drop-shadow-md">{result.philosophicalPersona}</h2>
+              <p className="text-slate-300 leading-relaxed text-lg font-light">
                 {result.generalAnalysis}
               </p>
             </div>
-            <div className="mt-6 flex items-center gap-2 text-slate-400 text-xs uppercase tracking-widest">
+            <div className="mt-6 flex items-center gap-2 text-philo-amber-500/60 text-xs uppercase tracking-widest">
               <span>PhiloMind Assessment</span>
             </div>
           </GlassCard>
@@ -246,14 +246,14 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         {/* Award Section (Conditional) */}
         {result.hasAward && (
           <div className="mb-4 transform hover:scale-[1.01] transition-transform duration-300">
-            <GlassCard className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 border-amber-200/50 text-center py-10">
-              <div className="flex justify-center mb-4 text-amber-500">
+            <GlassCard className="bg-gradient-to-br from-philo-amber-900/20 to-philo-navy-900/20 border-philo-amber-500/30 text-center py-10 gel-border">
+              <div className="flex justify-center mb-4 text-philo-amber-400 drop-shadow-[0_0_15px_rgba(245,158,11,0.4)]">
                 <Award size={64} strokeWidth={1} />
               </div>
-              <h3 className="serif text-3xl text-amber-800 mb-2">Philosophical Award Granted</h3>
-              <p className="text-amber-700/80 mb-4 uppercase tracking-widest text-sm font-bold">You have earned</p>
-              <div className="inline-block border-y-2 border-amber-300/50 py-2 px-8">
-                <span className="serif text-2xl md:text-4xl text-amber-900 font-bold">{result.awardTitle}</span>
+              <h3 className="serif text-3xl text-philo-amber-100 mb-2">Philosophical Award Granted</h3>
+              <p className="text-philo-amber-200/60 mb-4 uppercase tracking-widest text-sm font-bold">You have earned</p>
+              <div className="inline-block border-y-2 border-philo-amber-500/30 py-2 px-8 bg-philo-amber-500/5">
+                <span className="serif text-2xl md:text-4xl text-philo-amber-400 font-bold">{result.awardTitle}</span>
               </div>
             </GlassCard>
           </div>
@@ -261,43 +261,43 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       </div>
 
       {/* Detailed Insights */}
-      <h3 className="serif text-3xl text-slate-800 mb-8 pl-2 border-l-4 border-indigo-300 animate-fadeIn" style={{ animationDelay: '500ms' }}>Deep Dive Analysis</h3>
+      <h3 className="serif text-3xl text-white mb-8 pl-2 border-l-4 border-philo-amber-500 animate-fadeIn" style={{ animationDelay: '500ms' }}>Deep Dive Analysis</h3>
 
       <div className="space-y-8">
         {insightsWithQuestions.map((item, idx) => (
           <div key={idx} className="animate-slide-up-fade" style={{ animationDelay: `${600 + (idx * 150)}ms` }}>
-            <GlassCard hoverEffect className="group">
+            <GlassCard hoverEffect className="group gel-border">
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Question & Answer Summary */}
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600">
+                    <span className="w-6 h-6 rounded-full bg-philo-navy-700 flex items-center justify-center text-xs font-bold text-philo-amber-400 border border-philo-amber-500/20">
                       {idx + 1}
                     </span>
-                    <h4 className="text-slate-500 text-sm uppercase font-semibold tracking-wider">The Inquiry</h4>
+                    <h4 className="text-slate-400 text-sm uppercase font-semibold tracking-wider">The Inquiry</h4>
                   </div>
-                  <p className="font-medium text-slate-800 mb-4 text-lg serif leading-snug">
+                  <p className="font-medium text-slate-200 mb-4 text-lg serif leading-snug">
                     {item.originalText}
                   </p>
-                  <div className="pl-4 border-l-2 border-slate-200 mb-4">
-                    <p className="text-slate-500 italic text-sm">You: "{item.userAnswerSummary}"</p>
+                  <div className="pl-4 border-l-2 border-philo-navy-600 mb-4">
+                    <p className="text-slate-400 italic text-sm">You: "{item.userAnswerSummary}"</p>
                   </div>
-                  <div className="prose prose-slate">
-                    <p className="text-slate-700 leading-relaxed">
+                  <div className="prose prose-invert prose-slate">
+                    <p className="text-slate-300 leading-relaxed">
                       {item.philosophicalPerspective}
                     </p>
                   </div>
                 </div>
 
                 {/* Quote Section */}
-                <div className="md:w-1/3 flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-6">
-                  <Quote className="text-indigo-200 mb-4 transform group-hover:scale-110 transition-transform" size={40} />
-                  <p className="serif text-xl text-slate-800 italic mb-3 leading-relaxed">
+                <div className="md:w-1/3 flex flex-col justify-center border-t md:border-t-0 md:border-l border-white/10 pt-6 md:pt-0 md:pl-6">
+                  <Quote className="text-philo-amber-500/40 mb-4 transform group-hover:scale-110 transition-transform" size={40} />
+                  <p className="serif text-xl text-white italic mb-3 leading-relaxed drop-shadow-md">
                     "{item.relevantQuote}"
                   </p>
                   <div className="flex items-center gap-2">
-                    <div className="h-px w-8 bg-indigo-300"></div>
-                    <p className="text-sm font-bold text-indigo-900 uppercase tracking-widest">
+                    <div className="h-px w-8 bg-philo-amber-500/50"></div>
+                    <p className="text-sm font-bold text-philo-amber-400 uppercase tracking-widest">
                       {item.philosopher}
                     </p>
                   </div>
@@ -312,7 +312,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       <div className="mt-20 text-center animate-fadeIn" style={{ animationDelay: '1000ms' }}>
         <button
           onClick={onRetry}
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors px-6 py-3 rounded-full hover:bg-white/50"
+          className="inline-flex items-center gap-2 text-slate-400 hover:text-philo-amber-400 transition-colors px-6 py-3 rounded-full hover:bg-white/5 border border-transparent hover:border-white/10"
         >
           <RotateCcw size={16} />
           <span>Begin New Journey</span>
@@ -323,74 +323,77 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       <div className="absolute top-0 left-0 overflow-hidden pointer-events-none" style={{ width: 0, height: 0 }}>
         <div
           ref={shareCardRef}
-          className="w-[800px] bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-12 flex flex-col items-center justify-center text-center relative"
+          className="w-[800px] bg-slate-900 p-12 flex flex-col items-center justify-center text-center relative"
           style={{ height: 'auto', minHeight: '600px' }}
         >
           {/* Decorative Background Elements */}
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400"></div>
-          <div className="absolute -top-20 -left-20 w-64 h-64 bg-purple-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-indigo-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-philo-navy-900 to-slate-900"></div>
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-philo-navy-500 via-philo-amber-500 to-philo-navy-500"></div>
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-philo-navy-500/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-philo-amber-600/10 rounded-full blur-3xl"></div>
 
-          {/* Branding */}
-          <div className="flex items-center gap-3 mb-8 opacity-80">
-            <Brain className="text-indigo-600" size={32} />
-            <span className="serif text-2xl text-slate-700 tracking-tight">PhiloMind</span>
-          </div>
-
-          {/* Score */}
-          <div className="mb-8 relative w-40 h-40 mx-auto">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
-              <circle
-                className="text-indigo-50"
-                strokeWidth="12"
-                stroke="currentColor"
-                fill="white"
-                r="65"
-                cx="80"
-                cy="80"
-              />
-              <circle
-                className="text-indigo-600"
-                strokeWidth="12"
-                strokeDasharray={408}
-                strokeDashoffset={408 - (408 * result.maturityScore) / 100}
-                strokeLinecap="round"
-                stroke="currentColor"
-                fill="transparent"
-                r="65"
-                cx="80"
-                cy="80"
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="serif text-5xl font-bold text-indigo-600">{result.maturityScore}</span>
+          <div className="relative z-10 w-full flex flex-col items-center">
+            {/* Branding */}
+            <div className="flex items-center gap-3 mb-8 opacity-90">
+              <Brain className="text-philo-amber-500" size={32} />
+              <span className="serif text-3xl text-white tracking-tight">PhiloMind</span>
             </div>
-            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-              Maturity
+
+            {/* Score */}
+            <div className="mb-8 relative w-40 h-40 mx-auto">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                <circle
+                  className="text-philo-navy-800"
+                  strokeWidth="12"
+                  stroke="currentColor"
+                  fill="#1e293b"
+                  r="65"
+                  cx="80"
+                  cy="80"
+                />
+                <circle
+                  className="text-philo-amber-500"
+                  strokeWidth="12"
+                  strokeDasharray={408}
+                  strokeDashoffset={408 - (408 * result.maturityScore) / 100}
+                  strokeLinecap="round"
+                  stroke="currentColor"
+                  fill="transparent"
+                  r="65"
+                  cx="80"
+                  cy="80"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="serif text-5xl font-bold text-white">{result.maturityScore}</span>
+              </div>
+              <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-philo-amber-500 text-philo-navy-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                Maturity
+              </div>
             </div>
-          </div>
 
-          {/* Persona */}
-          <h2 className="serif text-5xl text-slate-800 mb-4 leading-tight max-w-2xl">
-            {result.philosophicalPersona}
-          </h2>
+            {/* Persona */}
+            <h2 className="serif text-5xl text-white mb-6 leading-tight max-w-2xl drop-shadow-lg">
+              {result.philosophicalPersona}
+            </h2>
 
-          <p className="text-xl text-slate-600 font-light leading-relaxed max-w-2xl mb-10">
-            {result.generalAnalysis}
-          </p>
+            <p className="text-xl text-slate-300 font-light leading-relaxed max-w-2xl mb-10">
+              {result.generalAnalysis}
+            </p>
 
-          {/* Award if present */}
-          {result.hasAward && (
-            <div className="flex items-center gap-4 bg-amber-50 border border-amber-100 px-6 py-3 rounded-full mb-8">
-              <Award className="text-amber-500" size={24} />
-              <span className="text-amber-800 font-serif text-lg">{result.awardTitle}</span>
+            {/* Award if present */}
+            {result.hasAward && (
+              <div className="flex items-center gap-4 bg-philo-amber-500/10 border border-philo-amber-500/30 px-8 py-4 rounded-full mb-10 backdrop-blur-md">
+                <Award className="text-philo-amber-400" size={28} />
+                <span className="text-philo-amber-100 font-serif text-xl">{result.awardTitle}</span>
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="mt-auto pt-8 border-t border-white/10 w-full flex justify-between items-center text-slate-500 text-sm uppercase tracking-widest">
+              <span>The Mirror of the Soul</span>
+              <span>philomind.vercel.app</span>
             </div>
-          )}
-
-          {/* Footer */}
-          <div className="mt-auto pt-8 border-t border-slate-200 w-full flex justify-between items-center text-slate-400 text-sm uppercase tracking-widest">
-            <span>The Mirror of the Soul</span>
-            <span>philomind.vercel.app</span>
           </div>
         </div>
       </div>

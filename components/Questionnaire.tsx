@@ -65,28 +65,28 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
   return (
     <div className="w-full max-w-2xl mx-auto relative z-10 px-4 animate-fadeInUp">
       {/* Progress Bar */}
-      <div className="mb-8 w-full h-1 bg-white/30 rounded-full overflow-hidden">
+      <div className="mb-8 w-full h-1 bg-white/10 rounded-full overflow-hidden">
         <div
-          className="h-full bg-indigo-500/50 backdrop-blur-sm transition-all duration-700 ease-out"
+          className="h-full bg-philo-amber-500/80 backdrop-blur-sm transition-all duration-700 ease-out shadow-[0_0_10px_rgba(245,158,11,0.5)]"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       <div className={`transition-all duration-500 transform ${isExiting ? 'opacity-0 -translate-x-10 scale-95' : 'opacity-100 translate-x-0 scale-100'}`}>
-        <GlassCard className="min-h-[400px] flex flex-col justify-between">
+        <GlassCard className="min-h-[400px] flex flex-col justify-between gel-border">
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <span className="px-3 py-1 bg-white/50 rounded-full text-xs font-bold tracking-widest text-indigo-900 uppercase">
+              <span className="px-3 py-1 bg-philo-navy-900/30 border border-white/10 rounded-full text-xs font-bold tracking-widest text-philo-amber-400 uppercase">
                 Question {currentIdx + 1} of {shuffledQuestions.length}
               </span>
             </div>
 
-            <h2 className="serif text-3xl md:text-4xl text-slate-800 mb-6 leading-tight">
+            <h2 className="serif text-3xl md:text-4xl text-white mb-6 leading-tight drop-shadow-md">
               {question.text}
             </h2>
 
             <textarea
-              className="w-full bg-white/30 border border-white/50 rounded-xl p-4 text-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-300/50 focus:bg-white/60 transition-all resize-none min-h-[120px] mb-6"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-philo-amber-500/50 focus:bg-white/10 transition-all resize-none min-h-[120px] mb-6 backdrop-blur-sm"
               placeholder={question.placeholder}
               value={currentAnswer}
               onChange={(e) => setCurrentAnswer(e.target.value)}
@@ -97,7 +97,7 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
             {/* Common Answers Options */}
             {question.options && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-slate-500 text-xs uppercase tracking-widest font-semibold mb-2">
+                <div className="flex items-center gap-2 text-philo-amber-400/80 text-xs uppercase tracking-widest font-semibold mb-2">
                   <Sparkles size={12} />
                   <span>Common Reflections</span>
                 </div>
@@ -106,7 +106,7 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
                     <button
                       key={idx}
                       onClick={() => handleOptionClick(option)}
-                      className="text-left px-4 py-3 rounded-lg bg-white/40 hover:bg-indigo-50 hover:text-indigo-700 transition-colors text-sm text-slate-600 border border-transparent hover:border-indigo-100"
+                      className="text-left px-4 py-3 rounded-lg bg-white/5 hover:bg-philo-amber-500/10 hover:text-philo-amber-300 transition-all duration-300 text-sm text-slate-300 border border-white/5 hover:border-philo-amber-500/30 bounce-on-hover"
                     >
                       {option}
                     </button>
@@ -122,10 +122,10 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
               disabled={!currentAnswer.trim()}
               className={`
                 group flex items-center gap-2 px-8 py-3 rounded-full 
-                text-white font-medium transition-all duration-300
+                font-medium transition-all duration-300
                 ${currentAnswer.trim()
-                  ? 'bg-indigo-600 hover:bg-indigo-700 shadow-lg hover:shadow-indigo-500/30 cursor-pointer'
-                  : 'bg-slate-300 cursor-not-allowed opacity-70'}
+                  ? 'bg-philo-amber-500 hover:bg-philo-amber-400 text-philo-navy-900 shadow-[0_0_15px_rgba(245,158,11,0.3)] hover:shadow-[0_0_25px_rgba(245,158,11,0.5)] cursor-pointer hover:-translate-y-1 active:scale-95'
+                  : 'bg-slate-700/50 text-slate-500 cursor-not-allowed opacity-70'}
               `}
             >
               <span>{currentIdx === shuffledQuestions.length - 1 ? "Finish Reflection" : "Next Thought"}</span>
@@ -135,7 +135,7 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
         </GlassCard>
       </div>
 
-      <p className="text-center mt-6 text-slate-500 text-sm font-light italic">
+      <p className="text-center mt-6 text-slate-400 text-sm font-light italic opacity-60">
         "The unexamined life is not worth living." — Socrates
       </p>
     </div>

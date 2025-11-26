@@ -8,17 +8,14 @@ interface GlassCardProps {
 
 export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(({ children, className = "", hoverEffect = false }, ref) => {
   return (
-    <div 
+    <div
       ref={ref}
       className={`
-        bg-white/40 
-        backdrop-blur-xl 
-        border border-white/40 
-        shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] 
+        liquid-glass
         rounded-2xl 
         p-6 
-        transition-all duration-500 ease-out
-        ${hoverEffect ? 'hover:bg-white/50 hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] hover:-translate-y-1' : ''}
+        transition-all duration-500 cubic-bezier(0.175, 0.885, 0.32, 1.275)
+        ${hoverEffect ? 'hover:bg-white/15 hover:shadow-[0_8px_32px_0_rgba(217,119,6,0.15)] hover:-translate-y-1 hover:border-philo-amber-400/30' : ''}
         ${className}
       `}
     >

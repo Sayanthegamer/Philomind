@@ -1,40 +1,59 @@
 import React from 'react';
+import { Brain, Sparkles, ArrowRight } from 'lucide-react';
 import { GlassCard } from './GlassCard';
-import { Sparkles } from 'lucide-react';
 
 interface IntroViewProps {
     onStart: () => void;
-    loadingError: string | null;
-    isTransitioning: boolean;
 }
 
-export const IntroView: React.FC<IntroViewProps> = ({ onStart, loadingError, isTransitioning }) => {
+export const IntroView: React.FC<IntroViewProps> = ({ onStart }) => {
     return (
-        <div className={`w-full max-w-lg transition-all duration-800 ease-in-out ${isTransitioning ? 'animate-enter-void' : 'animate-fadeInUp'}`}>
-            {loadingError && (
-                <div className="mb-6 p-4 bg-red-100/50 border border-red-200 rounded-lg text-red-700 text-sm text-center">
-                    {loadingError}
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+
+            {/* Background Blobs - Enhanced for Liquid Feel */}
+            <div className="absolute top-0 -left-4 w-72 h-72 bg-philo-navy-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div className="absolute top-0 -right-4 w-72 h-72 bg-philo-amber-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+
+            <div className="text-center max-w-2xl z-10 animate-fadeIn">
+                <div className="mb-8 flex justify-center animate-float">
+                    <div className="p-6 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl ring-1 ring-white/20">
+                        <Brain size={64} className="text-philo-amber-400" />
+                    </div>
                 </div>
-            )}
-            <GlassCard hoverEffect className="text-center py-12">
-                <p className="text-xl text-slate-700 leading-relaxed mb-8 font-light">
-                    Discover your philosophical maturity. Answer 7 deep questions about life, morality, and self.
-                    Receive a tailored analysis of your psyche and wisdom from the ancients to guide your future.
+
+                <h1 className="serif text-5xl md:text-7xl text-white mb-6 tracking-tight drop-shadow-lg">
+                    Philo<span className="text-philo-amber-400 font-italic">Mind</span>
+                </h1>
+
+                <p className="text-xl md:text-2xl text-slate-300 mb-12 font-light leading-relaxed max-w-lg mx-auto">
+                    A journey into your philosophical depth. Discover your maturity through the lens of history's greatest thinkers.
                 </p>
 
                 <button
                     onClick={onStart}
-                    className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-slate-800 text-white rounded-full overflow-hidden transition-all duration-300 hover:bg-slate-700 hover:scale-105 shadow-xl hover:shadow-2xl"
+                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-philo-amber-500 hover:bg-philo-amber-400 text-philo-navy-900 rounded-full text-lg font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1 active:scale-95"
                 >
-                    <span className="relative z-10 text-lg font-medium tracking-wide">Enter the Void</span>
-                    <Sparkles size={20} className="relative z-10 group-hover:rotate-12 transition-transform" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span>Begin Analysis</span>
+                    <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    <div className="absolute inset-0 rounded-full ring-2 ring-white/20 group-hover:ring-white/40 transition-all"></div>
                 </button>
 
-                <div className="mt-8 text-xs text-slate-400 font-medium tracking-widest uppercase">
-                    Powered by Gemini AI
+                <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-slate-400">
+                    <GlassCard className="py-4 hover:bg-white/10 transition-colors">
+                        <Sparkles className="w-5 h-5 mx-auto mb-2 text-philo-amber-400" />
+                        <span className="uppercase tracking-widest text-xs font-bold">AI Powered</span>
+                    </GlassCard>
+                    <GlassCard className="py-4 hover:bg-white/10 transition-colors">
+                        <Brain className="w-5 h-5 mx-auto mb-2 text-philo-amber-400" />
+                        <span className="uppercase tracking-widest text-xs font-bold">Deep Insights</span>
+                    </GlassCard>
+                    <GlassCard className="py-4 hover:bg-white/10 transition-colors">
+                        <div className="w-5 h-5 mx-auto mb-2 font-serif italic text-philo-amber-400 text-lg">φ</div>
+                        <span className="uppercase tracking-widest text-xs font-bold">Philosophical</span>
+                    </GlassCard>
                 </div>
-            </GlassCard>
+            </div>
         </div>
     );
 };
