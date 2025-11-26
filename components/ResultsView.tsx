@@ -227,7 +227,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           </GlassCard>
 
           {/* Persona Card */}
-          <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative min-h-[300px] gel-border">
+          <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative overflow-hidden min-h-[300px] gel-border">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500 rounded-t-2xl"></div>
             <div className="mb-auto mt-4">
               <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
