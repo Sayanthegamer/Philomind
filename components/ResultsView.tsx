@@ -339,7 +339,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col items-center justify-center w-full max-w-4xl">
+            <div className="flex-1 flex flex-col items-center justify-center w-full max-w-5xl">
 
               <div className="flex items-center justify-center gap-12 w-full">
                 {/* Score Circle */}
@@ -380,8 +380,8 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
                     {result.philosophicalPersona}
                   </h2>
                   <p className="text-2xl text-slate-300 font-light leading-relaxed">
-                    {result.generalAnalysis.length > 180
-                      ? result.generalAnalysis.substring(0, 180) + "..."
+                    {result.generalAnalysis.length > 320
+                      ? result.generalAnalysis.substring(0, 320) + "..."
                       : result.generalAnalysis}
                   </p>
                 </div>
