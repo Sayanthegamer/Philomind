@@ -191,7 +191,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
           {/* Main Score Card */}
           <GlassCard className="col-span-1 md:col-span-1 flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[300px] gel-border">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-navy-500 to-philo-amber-500"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-navy-500 to-philo-amber-500 rounded-t-2xl"></div>
             <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-6">Maturity Rating</h3>
             <div className="relative mb-6">
               <svg className="w-40 h-40 transform -rotate-90" viewBox="0 0 160 160">
@@ -228,7 +228,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
           {/* Persona Card */}
           <GlassCard className="col-span-1 md:col-span-2 flex flex-col justify-center relative min-h-[300px] gel-border">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-philo-amber-500 to-philo-navy-500 rounded-t-2xl"></div>
             <div className="mb-auto mt-4">
               <h3 className="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-2">Your Philosophical Persona</h3>
               <h2 className="serif text-3xl md:text-4xl text-white mb-4 drop-shadow-md">{result.philosophicalPersona}</h2>
