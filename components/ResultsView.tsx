@@ -338,8 +338,31 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           </div>
 
           {/* Score */}
-          <div className="mb-8 relative">
-            <div className="w-32 h-32 rounded-full border-4 border-indigo-100 flex items-center justify-center bg-white shadow-sm">
+          <div className="mb-8 relative w-40 h-40 mx-auto">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+              <circle
+                className="text-indigo-50"
+                strokeWidth="12"
+                stroke="currentColor"
+                fill="white"
+                r="65"
+                cx="80"
+                cy="80"
+              />
+              <circle
+                className="text-indigo-600"
+                strokeWidth="12"
+                strokeDasharray={408}
+                strokeDashoffset={408 - (408 * result.maturityScore) / 100}
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="transparent"
+                r="65"
+                cx="80"
+                cy="80"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
               <span className="serif text-5xl font-bold text-indigo-600">{result.maturityScore}</span>
             </div>
             <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
