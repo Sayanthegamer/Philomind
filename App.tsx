@@ -109,8 +109,8 @@ export default function App() {
 
       <main className="relative z-10 min-h-screen flex flex-col items-center justify-center py-10 px-4">
 
-        {/* Header - Always visible unless in results or intro (Intro has its own branding) */}
-        {appState !== 'RESULTS' && appState !== 'INTRO' && (
+        {/* Header - Always visible unless in results, intro, or questionnaire */}
+        {appState !== 'RESULTS' && appState !== 'INTRO' && appState !== 'QUESTIONNAIRE' && (
           <header className={`mb-12 text-center transition-all duration-700 ${isTransitioning ? 'opacity-0 -translate-y-10' : 'animate-fadeInDown'}`}>
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/5 backdrop-blur-md mb-4 shadow-[0_0_15px_rgba(245,158,11,0.2)] text-philo-amber-400 border border-white/10">
               <Brain size={32} strokeWidth={1.5} />
