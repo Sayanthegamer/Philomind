@@ -367,9 +367,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
                       cy="80"
                     />
                   </svg>
-                  <div className="absolute inset-0 flex items-center justify-center pt-2">
-                    <span className="serif text-6xl font-bold text-white leading-none">{result.maturityScore}</span>
-                  </div>
+                  <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 serif text-6xl font-bold text-white leading-none">{result.maturityScore}</span>
                   <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-philo-amber-500 text-philo-navy-900 text-sm font-bold px-4 py-1 rounded-full uppercase tracking-widest shadow-lg whitespace-nowrap">
                     Maturity
                   </div>
