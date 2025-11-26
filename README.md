@@ -4,7 +4,6 @@
 
 PhiloMind is an interactive web application that assesses your "Philosophical Maturity" and assigns you a unique "Philosophical Persona" based on your responses to deep, thought-provoking questions. Powered by Google's Gemini AI, it provides personalized insights into your worldview, ethics, and decision-making style.
 
-![PhiloMind Preview](philomind.vercel.app)
 
 ## ✨ Features
 
