@@ -10,7 +10,7 @@ interface IntroViewProps {
 
 export const IntroView: React.FC<IntroViewProps> = ({ onStart, loadingError, isTransitioning }) => {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+        <div className="w-full flex flex-col items-center justify-center p-4 relative">
 
             {/* Background Blobs - Enhanced for Liquid Feel */}
             <div className="absolute top-0 -left-4 w-72 h-72 bg-philo-navy-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
