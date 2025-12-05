@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { AppState, AnalysisResult } from './types';
 import { Questionnaire } from './components/Questionnaire';
-import { ResultsView } from './components/ResultsView';
+// Lazy load ResultsView to save initial bundle size (html-to-image is heavy)
+const ResultsView = React.lazy(() => import('./components/ResultsView').then(module => ({ default: module.ResultsView })));
 import { IntroView } from './components/IntroView';
 import { AnalyzingView } from './components/AnalyzingView';
-import { analyzeAnswers } from './services/geminiService';
-import { Brain } from 'lucide-react';
+// Remove static import of geminiService
+// import { analyzeAnswers } from './services/geminiService';
+import { Brain, Loader2 } from 'lucide-react';
 
 const STORAGE_KEY = 'philomind_state';
 
@@ -75,6 +77,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     try {
+      // Dynamically import the service so the heavy Google GenAI SDK is only loaded now
+      const { analyzeAnswers } = await import('./services/geminiService');
       const result = await analyzeAnswers(newAnswers);
       setAnalysisResult(result);
       setAppState('RESULTS');
@@ -148,7 +152,14 @@ export default function App() {
         {/* --- View: Results --- */}
         {appState === 'RESULTS' && analysisResult && (
           <div className={`${isTransitioning ? 'opacity-0 translate-y-10' : 'animate-slide-up-fade'} transition-all duration-700 w-full`}>
-            <ResultsView result={analysisResult} onRetry={restart} />
+            <Suspense fallback={
+              <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 className="animate-spin text-philo-amber-500 mb-4" size={48} />
+                <p className="text-slate-400">Summoning the results...</p>
+              </div>
+            }>
+              <ResultsView result={analysisResult} onRetry={restart} />
+            </Suspense>
           </div>
         )}
 
