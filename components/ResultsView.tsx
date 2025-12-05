@@ -11,11 +11,13 @@ interface ResultsViewProps {
 }
 
 type ShareStage = 'IDLE' | 'GENERATING' | 'READY';
+type SocialPlatform = 'X' | 'WHATSAPP' | 'INSTAGRAM';
 
 export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => {
   const [shareStage, setShareStage] = useState<ShareStage>('IDLE');
   const [generatedBlob, setGeneratedBlob] = useState<Blob | null>(null);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [generatingFor, setGeneratingFor] = useState<SocialPlatform | null>(null);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   // Map insights back to original questions for display
@@ -33,56 +35,60 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
     ]);
   };
 
-  const handlePrepareShare = async () => {
-    if (shareStage === 'GENERATING') return;
-
-    setShareStage('GENERATING');
+  const generateBlob = async (): Promise<Blob | null> => {
+    if (!shareCardRef.current) return null;
 
     try {
-      if (shareCardRef.current) {
-        // Wait a tick to ensure UI is stable
-        await new Promise(resolve => setTimeout(resolve, 100));
+      // Wait a tick to ensure UI is stable
+      await new Promise(resolve => setTimeout(resolve, 100));
 
-        const commonOptions = {
-          cacheBust: true,
-          pixelRatio: 2, // Higher quality for the dedicated card
-          quality: 0.95,
-          backgroundColor: '#1e293b', // Dark background for share card
-        };
+      const commonOptions = {
+        cacheBust: true,
+        pixelRatio: 2, // Higher quality for the dedicated card
+        quality: 0.95,
+        backgroundColor: '#1e293b', // Dark background for share card
+      };
 
-        let dataUrl = "";
-        try {
-          dataUrl = await generateImageWithTimeout(shareCardRef.current, commonOptions);
-        } catch (e) {
-          console.warn("High-res gen failed, retrying simplified...", e);
-          // Fallback
-          dataUrl = await generateImageWithTimeout(shareCardRef.current, {
-            ...commonOptions,
-            skipFonts: true,
-            pixelRatio: 1
-          }, 1500);
-        }
+      let dataUrl = "";
+      try {
+        dataUrl = await generateImageWithTimeout(shareCardRef.current, commonOptions);
+      } catch (e) {
+        console.warn("High-res gen failed, retrying simplified...", e);
+        // Fallback
+        dataUrl = await generateImageWithTimeout(shareCardRef.current, {
+          ...commonOptions,
+          skipFonts: true,
+          pixelRatio: 1
+        }, 1500);
+      }
 
-        if (dataUrl) {
-          const res = await fetch(dataUrl);
-          const blob = await res.blob();
-          setGeneratedBlob(blob);
-          setShareStage('READY');
-          return;
-        }
+      if (dataUrl) {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        return blob;
       }
     } catch (error) {
       console.error("Generation failed:", error);
     }
-
-    // If we failed to generate, reset so user can try again or just tweet
-    setShareStage('IDLE');
+    return null;
   };
 
-  const triggerDownload = () => {
-    if (!generatedBlob) return;
+  const handlePrepareShare = async () => {
+    if (shareStage === 'GENERATING') return;
+    setShareStage('GENERATING');
+    
+    const blob = await generateBlob();
+    if (blob) {
+      setGeneratedBlob(blob);
+      setShareStage('READY');
+    } else {
+      setShareStage('IDLE');
+    }
+  };
+
+  const triggerDownload = (blob: Blob) => {
     try {
-      const url = URL.createObjectURL(generatedBlob);
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = 'philosophical-maturity.png';
@@ -97,67 +103,86 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
 
   const executeShare = async () => {
     if (!generatedBlob) return;
+    await shareFile(generatedBlob);
+  };
 
-    const file = new File([generatedBlob], 'philosophical-maturity.png', { type: 'image/png' });
+  const shareFile = async (blob: Blob) => {
+    const file = new File([blob], 'philosophical-maturity.png', { type: 'image/png' });
     const shareUrl = window.location.href;
     const shareText = `I explored my mind with PhiloMind. Maturity Score: ${result.maturityScore}/100. Persona: ${result.philosophicalPersona}.`;
 
-    if (navigator.share) {
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
       try {
-        const shareDataWithFile: ShareData = {
+        await navigator.share({
           title: 'PhiloMind Assessment',
-          text: `${shareText}\n\n${shareUrl}`, // URL inside text
+          text: `${shareText}\n\n${shareUrl}`,
           files: [file]
-        };
-
-        if (navigator.canShare && navigator.canShare(shareDataWithFile)) {
-          await navigator.share(shareDataWithFile);
-        } else {
-          // Fallback: If file sharing isn't supported, share just the text and link
-          await navigator.share({
-            title: 'PhiloMind Assessment',
-            text: shareText,
-            url: shareUrl
-          });
-        }
+        });
+        return true; // Shared successfully via native menu
       } catch (err) {
         console.warn("Native share failed/cancelled:", err);
         if (err instanceof Error && err.name !== 'AbortError') {
-          triggerDownload();
+           // If it wasn't just cancelled by user, maybe try download?
+           // For now, we just return false to let caller handle fallback if needed
         }
       }
-    } else {
-      triggerDownload();
     }
+    return false; // Native share not supported or failed
   };
 
   const getShareText = () => `I explored my mind with PhiloMind. Score: ${result.maturityScore}/100. Persona: ${result.philosophicalPersona}.`;
 
-  const handleXShare = () => {
-    const shareText = getShareText();
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText + " " + window.location.href)}`, '_blank');
-  };
+  const handleSmartShare = async (platform: SocialPlatform) => {
+    if (generatingFor) return; // Prevent double clicks
+    setGeneratingFor(platform);
 
-  const handleWhatsAppShare = () => {
-    const shareText = getShareText();
-    window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + window.location.href)}`, '_blank');
-  };
-
-  const handleInstagramShare = async () => {
-    // Instagram doesn't support direct web sharing via URL scheme like WA/Twitter.
-    // Best practice is to copy text/link to clipboard and open Instagram.
-    const shareText = getShareText() + " " + window.location.href;
-
-    try {
-      await navigator.clipboard.writeText(shareText);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-
-      // Try to open Instagram app or website
-      window.open('https://instagram.com', '_blank');
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
+    // 1. Get or Generate Blob
+    let blob = generatedBlob;
+    if (!blob) {
+      setShareStage('GENERATING');
+      blob = await generateBlob();
+      if (blob) {
+        setGeneratedBlob(blob);
+        setShareStage('READY');
+      } else {
+        setShareStage('IDLE');
+        setGeneratingFor(null);
+        return; // Failed to generate
+      }
     }
+
+    // 2. Try Native Share (Mobile)
+    // We only try native share if it supports FILES.
+    // If it succeeds, we are done.
+    const nativeShareSuccess = await shareFile(blob);
+    
+    // 3. Desktop Fallback (if native share didn't happen)
+    if (!nativeShareSuccess) {
+      // Auto-download the image for them
+      triggerDownload(blob);
+
+      // Open the specific platform link
+      const shareText = getShareText();
+      const url = window.location.href;
+
+      if (platform === 'X') {
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText + " " + url)}`, '_blank');
+      } else if (platform === 'WHATSAPP') {
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + url)}`, '_blank');
+      } else if (platform === 'INSTAGRAM') {
+        // Copy text and open Insta
+        try {
+          await navigator.clipboard.writeText(shareText + " " + url);
+          setCopySuccess(true);
+          setTimeout(() => setCopySuccess(false), 2000);
+          window.open('https://instagram.com', '_blank');
+        } catch (err) {
+          console.error('Failed to copy text: ', err);
+        }
+      }
+    }
+
+    setGeneratingFor(null);
   };
 
   return (
@@ -181,7 +206,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           </button>
         )}
 
-        {shareStage === 'GENERATING' && (
+        {shareStage === 'GENERATING' && !generatingFor && (
           <button
             disabled
             className="flex items-center justify-center gap-2 px-6 py-2 rounded-full bg-philo-navy-700/50 text-slate-400 cursor-wait transition-all text-sm font-medium border border-white/5"
@@ -204,29 +229,38 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         {/* Social Buttons Group */}
         <div className="flex gap-2">
           <button
-            onClick={handleXShare}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-black/40 text-white border border-white/20 rounded-full hover:bg-black/60 transition-colors text-sm font-medium"
+            onClick={() => handleSmartShare('X')}
+            disabled={!!generatingFor}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-black/40 text-white border border-white/20 rounded-full hover:bg-black/60 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-wait"
             title="Post on X"
           >
-            <X size={16} />
+            {generatingFor === 'X' ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />}
             <span className="hidden sm:inline">Post</span>
           </button>
 
           <button
-            onClick={handleWhatsAppShare}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/30 rounded-full hover:bg-green-500/20 transition-colors text-sm font-medium"
+            onClick={() => handleSmartShare('WHATSAPP')}
+            disabled={!!generatingFor}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/30 rounded-full hover:bg-green-500/20 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-wait"
             title="Share on WhatsApp"
           >
-            <MessageCircle size={16} />
+            {generatingFor === 'WHATSAPP' ? <Loader2 size={16} className="animate-spin" /> : <MessageCircle size={16} />}
             <span className="hidden sm:inline">WhatsApp</span>
           </button>
 
           <button
-            onClick={handleInstagramShare}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full hover:bg-pink-500/20 transition-colors text-sm font-medium relative"
+            onClick={() => handleSmartShare('INSTAGRAM')}
+            disabled={!!generatingFor}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full hover:bg-pink-500/20 transition-colors text-sm font-medium relative disabled:opacity-50 disabled:cursor-wait"
             title="Share on Instagram"
           >
-            {copySuccess ? <Check size={16} /> : <Instagram size={16} />}
+            {generatingFor === 'INSTAGRAM' ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : copySuccess ? (
+              <Check size={16} />
+            ) : (
+              <Instagram size={16} />
+            )}
             <span className="hidden sm:inline">{copySuccess ? "Copied!" : "Instagram"}</span>
           </button>
         </div>
