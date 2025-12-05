@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { AnalysisResult } from '../types';
 import { QUESTIONS } from '../constants';
 import { GlassCard } from './GlassCard';
-import { Quote, Award, RotateCcw, Share2, Twitter, Download, Loader2, Check, Brain } from 'lucide-react';
+import { Quote, Award, RotateCcw, Share2, Twitter, Download, Loader2, Check, Brain, MessageCircle, Instagram, X } from 'lucide-react';
 import { toPng } from 'html-to-image';
 
 interface ResultsViewProps {
@@ -15,6 +15,7 @@ type ShareStage = 'IDLE' | 'GENERATING' | 'READY';
 export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => {
   const [shareStage, setShareStage] = useState<ShareStage>('IDLE');
   const [generatedBlob, setGeneratedBlob] = useState<Blob | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   // Map insights back to original questions for display
@@ -130,9 +131,33 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
     }
   };
 
-  const handleTwitterShare = () => {
-    const shareText = `I explored my mind with PhiloMind. Score: ${result.maturityScore}/100. Persona: ${result.philosophicalPersona}.`;
+  const getShareText = () => `I explored my mind with PhiloMind. Score: ${result.maturityScore}/100. Persona: ${result.philosophicalPersona}.`;
+
+  const handleXShare = () => {
+    const shareText = getShareText();
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText + " " + window.location.href)}`, '_blank');
+  };
+
+  const handleWhatsAppShare = () => {
+    const shareText = getShareText();
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + window.location.href)}`, '_blank');
+  };
+
+  const handleInstagramShare = async () => {
+    // Instagram doesn't support direct web sharing via URL scheme like WA/Twitter.
+    // Best practice is to copy text/link to clipboard and open Instagram.
+    const shareText = getShareText() + " " + window.location.href;
+
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+
+      // Try to open Instagram app or website
+      window.open('https://instagram.com', '_blank');
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   return (
@@ -176,13 +201,35 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
           </button>
         )}
 
-        <button
-          onClick={handleTwitterShare}
-          className="flex items-center justify-center gap-2 px-6 py-2 bg-sky-500/10 text-sky-400 border border-sky-500/30 rounded-full hover:bg-sky-500/20 transition-colors text-sm font-medium"
-        >
-          <Twitter size={16} />
-          <span>Tweet</span>
-        </button>
+        {/* Social Buttons Group */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleXShare}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-black/40 text-white border border-white/20 rounded-full hover:bg-black/60 transition-colors text-sm font-medium"
+            title="Post on X"
+          >
+            <X size={16} />
+            <span className="hidden sm:inline">Post</span>
+          </button>
+
+          <button
+            onClick={handleWhatsAppShare}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500/10 text-green-400 border border-green-500/30 rounded-full hover:bg-green-500/20 transition-colors text-sm font-medium"
+            title="Share on WhatsApp"
+          >
+            <MessageCircle size={16} />
+            <span className="hidden sm:inline">WhatsApp</span>
+          </button>
+
+          <button
+            onClick={handleInstagramShare}
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-pink-500/10 text-pink-400 border border-pink-500/30 rounded-full hover:bg-pink-500/20 transition-colors text-sm font-medium relative"
+            title="Share on Instagram"
+          >
+            {copySuccess ? <Check size={16} /> : <Instagram size={16} />}
+            <span className="hidden sm:inline">{copySuccess ? "Copied!" : "Instagram"}</span>
+          </button>
+        </div>
       </div>
 
       {/* Visible Results (Responsive) */}
