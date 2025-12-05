@@ -76,7 +76,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
   const handlePrepareShare = async () => {
     if (shareStage === 'GENERATING') return;
     setShareStage('GENERATING');
-    
+
     const blob = await generateBlob();
     if (blob) {
       setGeneratedBlob(blob);
@@ -122,8 +122,8 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
       } catch (err) {
         console.warn("Native share failed/cancelled:", err);
         if (err instanceof Error && err.name !== 'AbortError') {
-           // If it wasn't just cancelled by user, maybe try download?
-           // For now, we just return false to let caller handle fallback if needed
+          // If it wasn't just cancelled by user, maybe try download?
+          // For now, we just return false to let caller handle fallback if needed
         }
       }
     }
@@ -155,7 +155,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
     // We only try native share if it supports FILES.
     // If it succeeds, we are done.
     const nativeShareSuccess = await shareFile(blob);
-    
+
     // 3. Desktop Fallback (if native share didn't happen)
     if (!nativeShareSuccess) {
       // Auto-download the image for them
@@ -227,7 +227,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, onRetry }) => 
         )}
 
         {/* Social Buttons Group */}
-        <div className="flex gap-2">
+        <div className="hidden sm:flex gap-2">
           <button
             onClick={() => handleSmartShare('X')}
             disabled={!!generatingFor}
